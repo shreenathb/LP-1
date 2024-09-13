@@ -1,0 +1,9 @@
+START
+MACRO
+XYZ &X, &Y=, &Z=AREG
+ADD &Z, &X
+MOVEM &Z, &Y
+PRINT &X
+MEND
+XYZ A, B, &Z=C
+END
