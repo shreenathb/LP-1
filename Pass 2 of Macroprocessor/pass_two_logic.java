@@ -12,16 +12,22 @@ public class pass_two_logic {
 
     public pass_two_logic(){
         readFile rf = new readFile();
-        instructs = rf.readCode("/home/pict/IdeaProjects/31174_macroprocessor_passtwo/src/src.txt");
+        instructs = rf.readCode("/Users/shreenath/Documents/College Sem V Labs/LP-1/Pass 2 of Macroprocessor/src.txt");
 
+        mdt.add("ADD P-3, P-1");
+        mdt.add("MOVEM P-3, P-2");
+        mdt.add("PRINT P-1");
+        mdt.add("MEND");
         mdt.add("ADD P-3, P-1");
         mdt.add("MOVEM P-3, P-2");
         mdt.add("PRINT P-1");
         mdt.add("MEND");
 
 
+
         mnt = new HashMap<>();
-        mnt.put("XYZ",new Data("XYZ", 1,2,1,1 ));
+        mnt.put("XYZ",new Data("XYZ", 1,2,0,1 ));
+        mnt.put("ABC",new Data("ABC", 2,1,4,1 ));
     }
     public void pass_two(){
         int macro_count = 0;
@@ -53,27 +59,32 @@ public class pass_two_logic {
             int key_params = mnt.get(arr[0]).keyParams;
             int i=1;
             aptab = new HashMap<>();
+            int count = 0;
             for(;i<=pos_params;i++){
                 if(i >= arr.length){
                     System.out.println("Compilation error: Expected more arguments");
                     return;
                 }
                 aptab.put(i, arr[i]);
+                count++;
             }
             // need to check for default values
 
             for(int x=0;x<key_params;x++){
 
                 if(arr[x+i].contains("&")) {
+                    count++;
                     int ind1 = arr[x + i].indexOf("&");
                     int ind2 = arr[x + i].indexOf("=");
 
-                    String p = arr[x + i].substring(ind1 + 1, ind2);
+                   // String p = arr[x + i].substring(ind1 + 1, ind2);
                     String val = arr[x + i].substring(ind2 + 1);
 
                     aptab.put(x+i, val);
                     continue;
                 }
+
+
 
                 aptab.put(x+i, arr[x+i]);
             }
@@ -83,7 +94,7 @@ public class pass_two_logic {
 
             int mdtp = mnt.get(arr[0]).mdtp;
 
-            for(int i1=mdtp-1;i1<mdt.size();i1++){
+            for(int i1=mdtp;i1<mdt.size();i1++){
                 String arr1[] = mdt.get(i1).split("[\\s,]+");
                 String modified = "";
 
